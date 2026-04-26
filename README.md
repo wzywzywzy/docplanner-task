@@ -10,9 +10,17 @@ A simplified real estate listings platform for Kraków apartments, built for the
 - **AI:** OpenAI GPT-4o-mini (optional, for chat search)
 - **Data source:** OLX.pl (107 Kraków apartment sale listings)
 
+## Prerequisites
+
+- **Docker Desktop** — [install here](https://www.docker.com/products/docker-desktop/) (needed for MySQL)
+- **Node.js 18+** — [install here](https://nodejs.org/) (LTS recommended)
+
 ## Quick Start
 
 ```bash
+# 0. Copy environment config
+cp .env.example .env
+
 # 1. Start MySQL
 docker compose up -d mysql
 
@@ -25,7 +33,7 @@ npm run db:generate
 # 4. Push schema to database
 npm run db:push
 
-# 5. Import scraped data
+# 5. Import scraped data (107 Kraków apartment listings)
 npm run ingest
 
 # 6. Start dev server
@@ -33,6 +41,14 @@ npm run dev
 ```
 
 Open http://localhost:3000
+
+### Enable AI Chat Search (optional)
+
+1. Get an OpenAI API key from https://platform.openai.com/api-keys
+2. Edit `.env` and set `OPENAI_API_KEY="sk-your-key-here"`
+3. Restart the dev server
+
+Without the key, chat search still works using keyword-based fallback — just less intelligent.
 
 ## Environment Variables
 

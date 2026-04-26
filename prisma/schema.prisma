@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Listing {
+  id          Int      @id @default(autoincrement())
+  externalId  String   @unique @map("external_id")
+  sourceUrl   String   @map("source_url") @db.VarChar(512)
+  title       String   @db.VarChar(500)
+  description String?  @db.Text
+
+  price       Int?
+  currency    String   @default("PLN") @db.VarChar(10)
+  pricePerM2  Float?   @map("price_per_m2")
+
+  areaM2      Float?   @map("area_m2")
+  rooms       String?  @db.VarChar(50)
+  floor       String?  @db.VarChar(50)
+
+  buildingType String? @map("building_type") @db.VarChar(100)
+  market       String? @db.VarChar(50) // primary / secondary
+  furnished    String? @db.VarChar(20)
+
+  city        String   @default("Kraków") @db.VarChar(100)
+  district    String?  @db.VarChar(200)
+  region      String?  @db.VarChar(200)
+
+  latitude    Float?
+  longitude   Float?
+
+  images      Json?    // string[]
+  sellerName  String?  @map("seller_name") @db.VarChar(200)
+  sellerType  String?  @map("seller_type") @db.VarChar(50)
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  sourceDate  String?  @map("source_date") @db.VarChar(50) // original listing date
+
+  @@index([city])
+  @@index([district])
+  @@index([price])
+  @@index([areaM2])
+  @@index([rooms])
+  @@map("listings")
+}
